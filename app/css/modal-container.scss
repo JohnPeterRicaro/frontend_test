@@ -19,13 +19,21 @@
       margin-top: 25px;
       display: flex;
       justify-content: center;
-      align-items: start;
+      align-items: flex-start;
       flex-direction: column;
       gap: 10px;
 
       .name {
-        font-size: 27px;
+        font-size: 16px;
         font-weight: 700;
+
+        @media (min-width: 768px) {
+          font-size: 20px;
+        }
+
+        @media (min-width: 1024px) {
+          font-size: 27px;
+        }
       }
 
       .field {
@@ -36,44 +44,70 @@
 
         .value {
           font-weight: 300;
+          font-size: 12px;
+
+          @media (min-width: 768px) {
+            font-size: 16px;
+          }
+
+          @media (min-width: 1024px) {
+            font-size: 18px;
+          }
         }
       }
 
       .company {
         margin-top: 10px;
         .company-name {
-          font-size: 18px;
+          font-size: 12px;
           font-weight: 700;
+
+          @media (min-width: 768px) {
+            font-size: 16px;
+          }
+
+          @media (min-width: 1024px) {
+            font-size: 18px;
+          }
         }
         .catchphrase {
           font-style: italic;
+          font-size: 11px;
+
+          @media (min-width: 768px) {
+            font-size: 16px;
+          }
+
+          @media (min-width: 1024px) {
+            font-size: 18px;
+          }
         }
       }
     }
   }
 
   &.-xs > .body {
-    width: 30%;
+    width: 50%;
     max-width: 360px;
   }
 
   &.-sm > .body {
-    width: 40%;
+    width: 60%;
     max-width: 480px;
   }
 
   &.-md > .body {
-    width: 60%;
+    width: 70%;
     max-width: 768px;
   }
 
   &.-lg > .body {
-    width: 75%;
+    width: 80%;
     max-width: 968px;
   }
 
   &.-xl > .body {
-    width: 80%;
+    width: 100%;
     max-width: 1120px;
   }
 

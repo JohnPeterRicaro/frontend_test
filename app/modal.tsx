@@ -65,7 +65,7 @@ const Modal = ({
           <div className="background" onClick={() => onClose()} />
         </div>
       </FocusLock>,
-      document.body,
+      document.body
     );
   }
 

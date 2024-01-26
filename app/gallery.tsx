@@ -7,6 +7,9 @@ import {
   FaLocationDot,
   FaPhone,
   FaEnvelope,
+  FaCaretDown,
+  FaArrowDown,
+  FaChevronDown,
 } from "react-icons/fa6";
 
 import Modal from "./modal";
@@ -20,8 +23,10 @@ const Gallery = ({ users }: GalleryProps) => {
   const [usersList, setUsersList] = useState(users);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSortField, setIsSortField] = useState("Name");
+  const [isSortField, setIsSortField] = useState<string>("");
   const [isSortDirection, setIsSortDirection] = useState("Ascending");
+  const [isDropDown, setDropDown] = useState(false);
+  const [isDropdownDirection, setIsDropdownDirection] = useState(false);
 
   const handleModalOpen = (id: number) => {
     const user = usersList.find((item) => item.id === id) || null;
@@ -37,13 +42,56 @@ const Gallery = ({ users }: GalleryProps) => {
     setIsModalOpen(false);
   };
 
-  const handleSortField = () => {};
+  const sortUsers = (field: string, direction: string) => {
+    if (!field) {
+      setUsersList(users);
+      return;
+    }
 
-  const handleSortDirection = () => {};
+    const sortedList = [...usersList].sort((a, b) => {
+      const valueA =
+        field === "Email"
+          ? a.email
+          : field === "Company"
+            ? a.company.name
+            : field === "Name"
+              ? a.name
+              : "";
+      const valueB =
+        field === "Email"
+          ? b.email
+          : field === "Company"
+            ? b.company.name
+            : field === "Name"
+              ? b.name
+              : "";
+
+      return direction === "Ascending"
+        ? valueA.localeCompare(valueB)
+        : valueB.localeCompare(valueA);
+    });
+
+    setUsersList(sortedList);
+  };
+
+  const handleSortField = (field: string) => {
+    setIsSortField(field);
+    if (field) {
+      sortUsers(field, isSortDirection);
+    } else {
+      setUsersList(users);
+    }
+  };
+
+  const handleSortDirection = (direction: string) => {
+    setIsSortDirection(direction);
+    sortUsers(isSortField, direction);
+  };
 
   useMemo(() => {
-    console.log("selected sort", isSortField);
-  }, [isSortField]);
+    sortUsers(isSortField, isSortDirection);
+    console.log("selected sort");
+  }, [isSortField, isSortDirection]);
 
   return (
     <div className="user-gallery">
@@ -52,26 +100,71 @@ const Gallery = ({ users }: GalleryProps) => {
         <div className="sort-wrapper">
           <div className="sort">
             <label>Sort Field</label>
-            <select
-              id="sort-field"
-              defaultValue={isSortField}
-              onChange={(e) => setIsSortField(e.target.value)}
-            >
-              <option value="Name">Name</option>
-              <option value="Comapny">Company</option>
-              <option value="Email">Email</option>
-            </select>
+            <div className="sort-div" onClick={() => setDropDown(!isDropDown)}>
+              <div
+                id="sort-details"
+                className={
+                  isDropDown
+                    ? "sort-details sort-details-active"
+                    : "sort-details"
+                }
+              >
+                {isSortField === "" ? (
+                  <span style={{ color: "#cccccc" }}>Select...</span>
+                ) : (
+                  isSortField
+                )}
+              </div>
+              {isDropDown && (
+                <div className="sort-options">
+                  <div onClick={() => handleSortField("Name")}>Name</div>
+                  <div onClick={() => handleSortField("Company")}>Company</div>
+                  <div onClick={() => handleSortField("Email")}>Email</div>
+                </div>
+              )}
+              <div className="icon-down">
+                <FaChevronDown
+                  className={isDropDown ? "icon-cdown-active" : "icon-cdown"}
+                />
+              </div>
+            </div>
           </div>
           <div className="sort">
             <label>Sort Direction</label>
-            <select
-              id="sort-direction"
-              value={isSortDirection}
-              onChange={(e) => setIsSortDirection(e.target.value)}
+            <div
+              style={{ height: "39px !important" }}
+              className="sort-div sort-div-direction"
+              onClick={() => setIsDropdownDirection(!isDropdownDirection)}
             >
-              <option value="Ascending">Ascending</option>
-              <option value="Descending">Descending</option>
-            </select>
+              <div
+                id="sort-details"
+                className={
+                  isDropdownDirection
+                    ? "sort-details sort-details-active"
+                    : "sort-details"
+                }
+                style={{ height: "39px !important" }}
+              >
+                {isSortDirection === "" ? "Select..." : isSortDirection}
+              </div>
+              {isDropdownDirection && (
+                <div className="sort-options sort-options-direction">
+                  <div onClick={() => handleSortDirection("Ascending")}>
+                    Ascending
+                  </div>
+                  <div onClick={() => handleSortDirection("Descending")}>
+                    Descending
+                  </div>
+                </div>
+              )}
+              <div className="icon-down">
+                <FaChevronDown
+                  className={
+                    isDropdownDirection ? "icon-cdown-active" : "icon-cdown"
+                  }
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

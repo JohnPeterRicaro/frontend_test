@@ -31,11 +31,36 @@
   }
 
   > .info > .name {
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 600;
+
+    @media screen and (min-width: 550px) {
+      font-size: 15px;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-size: 16px;
+    }
+
+    @media screen and (min-width: 1124px) {
+      font-size: 18px;
+    }
   }
 
   > .info > .company {
     color: #253858;
+    font-size: 12px;
+
+    @media screen and (min-width: 550px) {
+      font-size: 15px;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-size: 16px;
+    }
+
+    @media screen and (min-width: 1124px) {
+      font-size: 18px;
+    }
   }
 }
