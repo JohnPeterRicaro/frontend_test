@@ -14,6 +14,42 @@
     color: #172b4d;
     background: #fff;
     border-radius: 8px;
+
+    .user-details {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      flex-direction: column;
+      gap: 10px;
+
+      .name {
+        font-size: 27px;
+        font-weight: 700;
+      }
+
+      .field {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        .value {
+          font-weight: 300;
+        }
+      }
+
+      .company {
+        margin-top: 10px;
+        .company-name {
+          font-size: 18px;
+          font-weight: 700;
+        }
+        .catchphrase {
+          font-style: italic;
+        }
+      }
+    }
   }
 
   &.-xs > .body {

@@ -12,6 +12,32 @@
     }
   }
 
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .sort-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      .sort {
+        color: #172b4d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        label {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
   > .heading + .items {
     margin-top: 32px;
   }

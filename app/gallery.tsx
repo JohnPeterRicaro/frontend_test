@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Avatar from "boring-avatars";
 import {
   FaRegCircleXmark,
@@ -20,11 +20,13 @@ const Gallery = ({ users }: GalleryProps) => {
   const [usersList, setUsersList] = useState(users);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSortField, setIsSortField] = useState("Name");
+  const [isSortDirection, setIsSortDirection] = useState("Ascending");
 
   const handleModalOpen = (id: number) => {
     const user = usersList.find((item) => item.id === id) || null;
 
-    if(user) {
+    if (user) {
       setSelectedUser(user);
       setIsModalOpen(true);
     }
@@ -35,9 +37,44 @@ const Gallery = ({ users }: GalleryProps) => {
     setIsModalOpen(false);
   };
 
+  const handleSortField = () => {};
+
+  const handleSortDirection = () => {};
+
+  useMemo(() => {
+    console.log("selected sort", isSortField);
+  }, [isSortField]);
+
   return (
     <div className="user-gallery">
-      <h1 className="heading">Users</h1>
+      <div className="header">
+        <h1 className="heading">Users</h1>
+        <div className="sort-wrapper">
+          <div className="sort">
+            <label>Sort Field</label>
+            <select
+              id="sort-field"
+              defaultValue={isSortField}
+              onChange={(e) => setIsSortField(e.target.value)}
+            >
+              <option value="Name">Name</option>
+              <option value="Comapny">Company</option>
+              <option value="Email">Email</option>
+            </select>
+          </div>
+          <div className="sort">
+            <label>Sort Direction</label>
+            <select
+              id="sort-direction"
+              value={isSortDirection}
+              onChange={(e) => setIsSortDirection(e.target.value)}
+            >
+              <option value="Ascending">Ascending</option>
+              <option value="Descending">Descending</option>
+            </select>
+          </div>
+        </div>
+      </div>
       <div className="items">
         {usersList.map((user, index) => (
           <div
@@ -88,25 +125,29 @@ const Gallery = ({ users }: GalleryProps) => {
                       ]}
                     />
                   </div>
-                  <div className="name">
-                    {selectedUser.name} ({selectedUser.username})
-                  </div>
-                  <div className="field">
-                    <FaLocationDot className="icon" />
-                    <div className="data">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
-                  </div>
-                  <div className="field">
-                    <FaPhone className="icon" />
-                    <div className="value">{selectedUser.phone}</div>
-                  </div>
-                  <div className="fields">
-                    <FaEnvelope className="icon" />
-                    <div className="value">{selectedUser.email}</div>
-                  </div>
-                  <div className="company">
-                    <div className="name">{selectedUser.company.name}</div>
-                    <div className="catchphrase">
-                      {selectedUser.company.catchPhrase}
+                  <div className="user-details">
+                    <div className="name">
+                      {selectedUser.name} ({selectedUser.username})
+                    </div>
+                    <div className="field">
+                      <FaLocationDot className="icon" />
+                      <div className="data">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
+                    </div>
+                    <div className="field">
+                      <FaPhone className="icon" />
+                      <div className="value">{selectedUser.phone}</div>
+                    </div>
+                    <div className="field">
+                      <FaEnvelope className="icon" />
+                      <div className="value">{selectedUser.email}</div>
+                    </div>
+                    <div className="company">
+                      <div className="company-name">
+                        {selectedUser.company.name}
+                      </div>
+                      <div className="catchphrase">
+                        {selectedUser.company.catchPhrase}
+                      </div>
                     </div>
                   </div>
                 </div>
