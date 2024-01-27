@@ -3,27 +3,28 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import Gallery from "./gallery";
 import { useEffect, useState } from "react";
+import { fetchPhoto, fetchData } from "./api";
 
 export default function Home() {
   const [users, setUsers] = useState<any>([]);
+  const [photos, setPhotos] = useState<any>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users"
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setUsers(data);
-      } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
+    const fetchUser = async () => {
+      const usersData = await fetchData();
+      const apiPhotos = await fetchPhoto();
+
+      if (usersData && apiPhotos) {
+        const usersWithPhotos = usersData.map((user: any, index: number) => ({
+          ...user,
+          userPhoto: apiPhotos[index]?.avatar,
+        }));
+
+        setPhotos(apiPhotos);
+        setUsers(usersWithPhotos);
       }
     };
-
-    fetchData();
+    fetchUser();
   }, []);
 
   if (users.length === 0) {
@@ -32,6 +33,10 @@ export default function Home() {
         <div>loading...</div>
       </main>
     );
+  }
+
+  if (users.length > 0) {
+    console.log("users: ", users);
   }
 
   return (

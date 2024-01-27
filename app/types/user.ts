@@ -7,6 +7,7 @@ export type User = {
   phone: string;
   website: string;
   company: Company;
+  userPhoto: string;
 };
 
 export type Address = {
@@ -26,4 +27,8 @@ export type Company = {
 export type Geo = {
   lat: string;
   lng: string;
+};
+
+export type Photo = {
+  avatar: string;
 };

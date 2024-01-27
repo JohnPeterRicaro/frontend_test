@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Avatar from "boring-avatars";
 import {
   FaRegCircleXmark,
@@ -14,7 +14,8 @@ import {
 
 import Modal from "./modal";
 
-import { User } from "./types/user";
+import { Photo, User } from "./types/user";
+import Image from "next/image";
 
 export type GalleryProps = {
   users: User[];
@@ -176,12 +177,28 @@ const Gallery = ({ users }: GalleryProps) => {
             onClick={() => handleModalOpen(user.id)}
           >
             <div className="body">
-              <Avatar
-                size={96}
-                name={user.name}
-                variant="marble"
-                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
-              />
+              {user.userPhoto === undefined ? (
+                <Avatar
+                  size={96}
+                  name={user.name}
+                  variant="marble"
+                  colors={[
+                    "#92A1C6",
+                    "#146A7C",
+                    "#F0AB3D",
+                    "#C271B4",
+                    "#C20D90",
+                  ]}
+                />
+              ) : (
+                <Image
+                  src={user.userPhoto}
+                  alt="avatar"
+                  width={96}
+                  height={96}
+                  className="avatar-users"
+                />
+              )}
             </div>
             <div className="info">
               <div className="name">{user.name}</div>
@@ -205,18 +222,28 @@ const Gallery = ({ users }: GalleryProps) => {
               {selectedUser && (
                 <div className="user-info info">
                   <div className="avatar">
-                    <Avatar
-                      size={240}
-                      name={selectedUser.name}
-                      variant="marble"
-                      colors={[
-                        "#92A1C6",
-                        "#146A7C",
-                        "#F0AB3D",
-                        "#C271B4",
-                        "#C20D90",
-                      ]}
-                    />
+                    {selectedUser.userPhoto === undefined ? (
+                      <Avatar
+                        size={96}
+                        name={selectedUser.name}
+                        variant="marble"
+                        colors={[
+                          "#92A1C6",
+                          "#146A7C",
+                          "#F0AB3D",
+                          "#C271B4",
+                          "#C20D90",
+                        ]}
+                      />
+                    ) : (
+                      <Image
+                        src={selectedUser.userPhoto}
+                        alt="avatar"
+                        width={240}
+                        height={240}
+                        className="avatar-users"
+                      />
+                    )}
                   </div>
                   <div className="user-details">
                     <div className="name">
